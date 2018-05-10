@@ -723,10 +723,12 @@ chrome.cast.Session.prototype.loadMedia = function (loadRequest, successCallback
 		return;
 	}
 
+	console.log("-> Starting Media Loading");
 	var self = this;
 
 	var mediaInfo = loadRequest.media;
 	execute('loadMedia', mediaInfo.contentId, mediaInfo.contentType, mediaInfo.duration || 0.0, mediaInfo.streamType, loadRequest.autoplay || false, loadRequest.currentTime || 0, mediaInfo.metadata, function (err, obj) {
+		console.log("--> Executing loadMedia");
 		if (!err) {
 			_currentMedia = new chrome.cast.media.Media(self.sessionId, obj.mediaSessionId);
 			_currentMedia.media = mediaInfo;
@@ -845,12 +847,14 @@ chrome.cast.media.Media = function (sessionId, mediaSessionId) {
 	this.currentTime = 0;
 	this.playbackRate = 1;
 	this.playerState = chrome.cast.media.PlayerState.BUFFERING;
+	
 	this.supportedMediaCommands = [
-	chrome.cast.media.MediaCommand.PAUSE,
-	chrome.cast.media.MediaCommand.SEEK,
-	chrome.cast.media.MediaCommand.STREAM_VOLUME,
-	chrome.cast.media.MediaCommand.STREAM_MUTE
-];
+		chrome.cast.media.MediaCommand.PAUSE,
+		chrome.cast.media.MediaCommand.SEEK,
+		chrome.cast.media.MediaCommand.STREAM_VOLUME,
+		chrome.cast.media.MediaCommand.STREAM_MUTE
+	];
+
 	this.volume = new chrome.cast.Volume(1, false);
 	this._lastUpdatedTime = Date.now();
 	this.media = {};
