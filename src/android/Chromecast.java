@@ -341,14 +341,14 @@ public class Chromecast extends CordovaPlugin implements ChromecastOnMediaUpdate
 						Chromecast.this.setLastSessionId(Chromecast.this.currentSession.getSessionId());
 						sendJavascript("chrome.cast._.sessionJoined(" + Chromecast.this.currentSession.createSessionObject().toString() + ");");
 					} catch (Exception e) {
-						log("wut.... " + e.getMessage() + e.getStackTrace());
+						log("ERROR: " + e.getMessage() + e.getStackTrace());
 					}
 				}
 			}
 
 			@Override
 			void onError(String reason) {
-				log("sessionJoinAttempt error " +reason);
+				log("ERROR: sessionJoinAttempt " +reason);
 			}
 
 		});
@@ -444,6 +444,9 @@ public class Chromecast extends CordovaPlugin implements ChromecastOnMediaUpdate
 	 * @param  callbackContext
 	 */
 	public boolean loadMedia (String contentId, String contentType, Integer duration, String streamType, Boolean autoPlay, Double currentTime, JSONObject metadata, final CallbackContext callbackContext) {
+
+		// DEBUG
+		log("LOADMEDIA: ContentId:" + contentId + " ContentType:" + contentType + "\nSession: " + this.currentSession.toString() + "\nMetadata:" + metadata.toString());
 
 		if (this.currentSession != null) {
 			return this.currentSession.loadMedia(contentId, contentType, duration, streamType, autoPlay, currentTime, metadata,
@@ -752,7 +755,7 @@ public class Chromecast extends CordovaPlugin implements ChromecastOnMediaUpdate
 		if (isAlive) {
 			sendJavascript("chrome.cast._.sessionUpdated(true, " + session.toString() + ");");
 		} else {
-			log("SESSION DESTROYYYY");
+			log("WARN: Session has been unexpectedly destroyed");
 			sendJavascript("chrome.cast._.sessionUpdated(false, " + session.toString() + ");");
 			this.currentSession = null;
 		}

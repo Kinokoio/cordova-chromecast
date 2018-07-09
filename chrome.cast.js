@@ -719,7 +719,7 @@ chrome.cast.Session.prototype.sendMessage = function (namespace, message, succes
 */
 chrome.cast.Session.prototype.loadMedia = function (loadRequest, successCallback, errorCallback) {
 	if (chrome.cast.isAvailable === false) {
-		errorCallback(new chrome.cast.Error(chrome.cast.ErrorCode.API_NOT_INITIALIZED), 'The API is not initialized.', {});
+		errorCallback(new chrome.cast.Error(chrome.cast.ErrorCode.API_NOT_INITIALIZED), 'ERROR: The API is not initialized.', {});
 		return;
 	}
 
@@ -847,7 +847,7 @@ chrome.cast.media.Media = function (sessionId, mediaSessionId) {
 	this.currentTime = 0;
 	this.playbackRate = 1;
 	this.playerState = chrome.cast.media.PlayerState.BUFFERING;
-	
+
 	this.supportedMediaCommands = [
 		chrome.cast.media.MediaCommand.PAUSE,
 		chrome.cast.media.MediaCommand.SEEK,
