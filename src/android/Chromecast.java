@@ -444,10 +444,6 @@ public class Chromecast extends CordovaPlugin implements ChromecastOnMediaUpdate
 	 * @param  callbackContext
 	 */
 	public boolean loadMedia (String contentId, String contentType, Integer duration, String streamType, Boolean autoPlay, Double currentTime, JSONObject metadata, final CallbackContext callbackContext) {
-
-		// DEBUG
-		log("LOADMEDIA: ContentId:" + contentId + " ContentType:" + contentType + "Session: " + this.currentSession.toString() + "Metadata:" + metadata.toString());
-
 		if (this.currentSession != null) {
 			return this.currentSession.loadMedia(contentId, contentType, duration, streamType, autoPlay, currentTime, metadata,
 					new ChromecastSessionCallback() {
@@ -640,6 +636,7 @@ public class Chromecast extends CordovaPlugin implements ChromecastOnMediaUpdate
 
 				for (RouteInfo route: routeList) {
 					if (!route.getName().equals("Phone") && route.getId().indexOf("Cast") > -1 && route.matchesSelector(Chromecast.this.mMediaRouteSelector)) {
+						log("Route Found " + route.getName() + " ID " + route.getId());
 						available = true;
 						break;
 					}
